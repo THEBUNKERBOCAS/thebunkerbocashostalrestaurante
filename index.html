@@ -1,0 +1,153 @@
+html<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Bunker | Hostal, Restaurante y Naturaleza en Bürí</title>
+    <style>
+        :root {
+            --verde-selva: #0b2216;
+            --verde-hoja: #1e5935;
+            --neon-selva: #1abc9c;
+            --coral-flor: #e74c3c;
+            --amarillo-tucan: #f1c40f;
+            --azul-rio: #3498db;
+            --magenta-mariposa: #9b59b6;
+            --blanco: #ffffff;
+            --fondo-ecologico: #f4fbf7;
+            --gris-editable: #fffdf0;
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', Arial, sans-serif; }
+        body { color: #2c3e50; background-color: var(--fondo-ecologico); line-height: 1.6; padding-top: 70px; }
+        h1, h2, h3 { color: var(--verde-selva); font-weight: 700; }
+        #status-bar { background-color: var(--coral-flor); color: white; text-align: center; padding: 10px; font-weight: bold; position: fixed; top: 0; width: 100%; z-index: 2500; display: none; box-shadow: 0 4px 10px rgba(0,0,0,0.2); }
+        header { background-color: var(--verde-selva); position: fixed; width: 100%; top: 0; z-index: 1000; box-shadow: 0 4px 15px rgba(0,0,0,0.2); transition: margin-top 0.3s; }
+        nav { display: flex; justify-content: space-between; align-items: center; max-width: 1200px; margin: 0 auto; padding: 15px 20px; }
+        .logo { color: var(--blanco); font-size: 26px; font-weight: 800; text-transform: uppercase; letter-spacing: 1px; }
+        .logo span { color: var(--neon-selva); }
+        #google_translate_element { background: rgba(255,255,255,0.15); padding: 4px 10px; border-radius: 8px; }
+        .edit-mode-active .editable { background-color: var(--gris-editable) !important; color: #111111 !important; border: 2px dashed var(--coral-flor) !important; padding: 4px; border-radius: 6px; cursor: pointer; }
+        #inicio { height: 65vh; background: linear-gradient(rgba(11, 34, 22, 0.65), rgba(11, 34, 22, 0.45)), url('https://unsplash.com') no-repeat center center/cover; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; color: var(--blanco); padding: 0 20px; }
+        #inicio h1 { color: var(--blanco); font-size: 48px; margin-bottom: 15px; text-transform: uppercase; text-shadow: 2px 2px 8px rgba(0,0,0,0.5); }
+        #inicio p { font-size: 20px; max-width: 800px; margin-bottom: 25px; text-shadow: 1px 1px 4px rgba(0,0,0,0.5); }
+        .btn-ws { display: inline-block; background-color: #25d366; color: white; padding: 14px 35px; text-decoration: none; border-radius: 50px; font-weight: bold; font-size: 18px; box-shadow: 0 4px 15px rgba(37,211,102,0.4); text-transform: uppercase; }
+        section { padding: 70px 20px; max-width: 1200px; margin: 0 auto; }
+        .section-bg-selva { background-color: #eef7f2; max-width: 100%; padding: 70px 0; }
+        .section-title { text-align: center; font-size: 36px; margin-bottom: 40px; text-transform: uppercase; color: var(--verde-selva); }
+        .section-title::after { content: '🌿'; display: block; font-size: 20px; margin-top: 5px; }
+        .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 35px; padding: 0 20px; }
+        .card { background-color: var(--blanco); border-radius: 20px; overflow: hidden; box-shadow: 0 6px 20px rgba(11,34,22,0.04); display: flex; flex-direction: column; border: 1px solid rgba(0,0,0,0.02); }
+        .card-img { height: 240px; background-size: cover; background-position: center; }
+        .card-content { padding: 30px; flex-grow: 1; }
+        .card-content h3 { margin-bottom: 12px; font-size: 23px; color: var(--verde-selva); }
+        .card-content p { color: #4a5568; font-size: 16px; }
+        .seccion-resenas { max-width: 800px; margin: 40px auto; padding: 0 20px; }
+        .formulario-opiniones { background: white; padding: 30px; border-radius: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.04); margin-bottom: 35px; }
+        .form-grupo { margin-bottom: 15px; display: flex; flex-direction: column; }
+        .form-grupo label { font-weight: bold; margin-bottom: 5px; }
+        .form-grupo input, .form-grupo textarea, .form-grupo select { width: 100%; padding: 12px; border: 2px solid #e2e8f0; border-radius: 10px; font-size: 16px; outline: none; }
+        .lista-resenas { display: flex; flex-direction: column; gap: 20px; }
+        .resena-card { background: white; padding: 25px; border-radius: 15px; box-shadow: 0 5px 15px rgba(0,0,0,0.01); border-left: 6px solid var(--neon-selva); }
+        .resena-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; font-weight: bold; }
+        .mapa-contenedor { max-width: 1200px; margin: 40px auto; padding: 0 20px; }
+        .mapa-box { width: 100%; height: 400px; border-radius: 25px; overflow: hidden; box-shadow: 0 12px 30px rgba(11, 34, 22, 0.12); border: 4px solid var(--verde-selva); }
+        footer { background-color: #05140d; color: #799487; text-align: center; padding: 50px 20px; margin-top: 60px; border-top: 3px solid var(--verde-selva); }
+        .panel-admin { margin-top: 25px; border-top: 1px solid #143023; padding-top: 20px; }
+        .btn-admin { background: transparent; border: 1px solid #586e62; color: #879b90; padding: 8px 22px; border-radius: 30px; cursor: pointer; font-weight: 600; font-size: 14px; }
+        .btn-admin:hover { background: var(--coral-flor); color: white; border-color: var(--coral-flor); }
+        .btn-guardar { background-color: #2ecc71; color: white; border: none; padding: 12px 30px; border-radius: 50px; font-weight: bold; cursor: pointer; display: none; margin: 15px auto 0; font-size: 16px; text-transform: uppercase; }
+        @media (max-width: 768px) { #inicio h1 { font-size: 32px; } .grid { padding: 0; } }
+    </style>
+</head>
+<body>
+    <div id="status-bar">MODO PROPIETARIO ACTIVO: Haz clic en los recuadros con borde rojo y modifica tus textos directamente</div>
+    <header id="main-header"><nav><div class="logo">The <span>Bunker</span></div><div id="google_translate_element"></div></nav></header>
+    <section id="inicio">
+        <h1 class="editable" id="t-p-principal">Bienvenidos a The Bunker</h1>
+        <p class="editable" id="t-p-sub">Descubre la combinación perfecta entre el descanso y la aventura salvaje de la jungla en Bürí, Bocas del Toro. Un oasis rodeado de ríos cristalinos, flores exóticas y fauna libre.</p>
+        <a href="https://wa.me" target="_blank" class="btn-ws">💬 Reservar por WhatsApp</a>
+    </section>
+    <section id="hospedaje">
+        <h2 class="section-title">Hospedaje & Estadías</h2>
+        <div class="grid">
+            <div class="card" style="border-top: 6px solid var(--coral-flor);"><div class="card-img" style="background-image: url('hospedaje.jpg');"></div><div class="card-content"><h3 class="editable" id="tit-c1">Cabañas de la Montaña</h3><p class="editable" id="desc-c1">Cabañas rústicas integradas de manera armónica a la vegetación. Despierta adornado naturalmente por colorivas heliconias, orquídeas y flores tropicales silvestres.</p></div></div>
+            <div class="card" style="border-top: 6px solid var(--amarillo-tucan);"><div class="card-img" style="background-image: url('camping.jpg');"></div><div class="card-content"><h3 class="editable" id="tit-c2">Camping & Car Camping</h3><p class="editable" id="desc-c2">Zonas verdes perfectas para acampar bajo las estrellas del bosque o estacionar tu minivan, casa rodante o vehículo Overland con total seguridad.</p></div></div>
+        </div>
+    </section>
+ <div class="section-bg-selva">
+        <section id="restaurante">
+            <h2 class="section-title">Restaurante & Sabores</h2>
+            <div class="grid">
+                <div class="card" style="border-top: 6px solid var(--verde-hoja);"><div class="card-img" style="background-image: url('restaurante.jpg');"></div><div class="card-content"><h3>Platos Tradicionales</h3><p class="editable" id="desc-c3">Sabor criollo único preparado por manos expertas. Disfruta de un menú elaborado con ingredientes orgánicos y frescos cosechados localmente.</p></div></div>
+                <div class="card" style="border-top: 6px solid var(--neon-selva);"><div class="card-img" style="background-image: url('bebidas.jpg');"></div><div class="card-content"><h3>Bebidas Artesanales</h3><p class="editable" id="desc-c4">Refréscate tras tus caminatas con jugos de frutas locales totalmente naturales o cócteles exclusivos servidos bien fríos en nuestro búnker.</p></div></div>
+            </div>
+        </section>
+    </div>
+    <section id="naturaleza">
+        <h2 class="section-title">Aventuras en la Selva</h2>
+        <div class="grid">
+            <div class="card" style="border-top: 6px solid var(--verde-hoja);"><div class="card-img" style="background-image: url('bosque.jpg');"></div><div class="card-content"><h3>🥾 Senderismo Guiado</h3><p class="editable" id="desc-c5">Camine bajo imponentes árboles nativos centenarios. Rutas mágicas cubiertas de musgo, helechos gigantes y el aroma puro de la tierra húmeda selvática.</p></div></div>
+            <div class="card" style="border-top: 6px solid var(--azul-rio);"><div class="card-img" style="background-image: url('rio.jpg');"></div><div class="card-content"><h3>🌊 Pozas de Río Cristalino</h3><p class="editable" id="desc-c6">Disfruta de un baño refrescante en las transparentes y limpias corrientes de agua viva del río que cruza nuestra maravillosa propiedad de montaña.</p></div></div>
+            <div class="card" style="border-top: 6px solid var(--amarillo-tucan);"><div class="card-img" style="background-image: url('aves.jpg');"></div><div class="card-content"><h3>🦜 Avistamiento de Aves</h3><p class="editable" id="desc-c7">Prepara tus binoculares. Un paraíso idóneo para observar y fotografiar tucanes, colibríes y hermosas especies de aves endémicas en total libertad.</p></div></div>
+            <div class="card" style="border-top: 6px solid var(--magenta-mariposa);"><div class="card-img" style="background-image: url('mariposa.jpg');"></div><div class="card-content"><h3>🦋 Mariposas e Insectos</h3><p class="editable" id="desc-c8">Observa de cerca el alegre vuelo de docenas de espectaculares especies de mariposas exóticas polinizando los jardiens florales que nos rodean.</p></div></div>
+        </div>
+    </section>
+    <section class="seccion-resenas">
+        <h2 style="text-align: center; margin-bottom: 35px; color: var(--verde-selva); text-transform: uppercase; font-weight: 800;">💬 Recomendaciones de Viajeros</h2>
+        <div class="formulario-opiniones">
+            <h3>Deja tu Comentario</h3>
+            <form id="opinionForm" onsubmit="agregarResenaNueva(event)">
+                <div class="form-grupo"><label>Tu Nombre o Familia:</label><input type="text" id="form-nombre" required placeholder="Ej: John & Sarah (Alemania)"></div>
+                <div class="form-grupo"><label>Calificación:</label><select id="form-estrellas"><option value="⭐⭐⭐⭐⭐">⭐⭐⭐⭐⭐ (Excelente)</option><option value="⭐⭐⭐⭐">⭐⭐⭐⭐ (Muy Bueno)</option></select></div>
+                <div class="form-grupo"><label>Tu Experiencia:</label><textarea id="form-comentario" rows="3" required placeholder="Cuéntanos qué tal las cabañas, el car camping, el río, las mariposas..."></textarea></div>
+                <button type="submit" class="btn-ws" style="background-color: var(--verde-selva); border: none; cursor: pointer; font-size:16px;">Publicar Comentario</button>
+            </form>
+        </div>
+        <div class="lista-resenas" id="contenedor-resenas"></div>
+    </section>
+    <div class="mapa-contenedor">
+        <h2 style="text-align: center; margin-bottom: 25px; color: var(--verde-selva); text-transform: uppercase; font-weight: 800;">📍 CÓMO LLEGAR A THE BUNKER</h2>
+        <div class="mapa-box"><iframe src="https://google.com" width="100%" height="100%" style="border:0;" allowfullscreen="" loading="lazy"></iframe></div>
+    </div>
+    <div style="max-width: 1200px; margin: 40px auto; text-align: center; padding: 0 20px;">
+        <p class="editable" id="txt-contacto-ub">📍 <strong>Ubicación:</strong> Willy Mazue, Bürí, Provincia de Bocas del Toro / Comarca, Panamá</p>
+        <p class="editable" id="txt-contacto-tel">📞 <strong>WhatsApp de Reservas:</strong> +507 6347-6510</p>
+    </div>
+    <footer>
+        <p>&copy; 2026 Hostal y Restaurante The Bunker (Bürí). Conservando nuestros ríos y bosques nativos.</p>
+        <div class="panel-admin">
+            <button class="btn-admin" onclick="activarModoEditor()">🔐 Acceso Propietario (Modificar Textos)</button><br>
+            <button class="btn-guardar" id="btn-save" onclick="guardarCambiosNuevos()">💾 Salvar Datos Modificados</button>
+        </div>
+    </footer>
+    <script type="text/javascript">function googleTranslateElementInit() { new google.translate.TranslateElement({pageLanguage: 'es', includedLanguages: 'en,de,fr,it,pt,es,nl', layout: google.translate.TranslateElement.InlineLayout.SIMPLE}, 'google_translate_element'); }</script>
+    <script type="text/javascript" src="https://google.com"></script>
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            document.querySelectorAll('.editable').forEach(campo => { const guardado = localStorage.getItem(campo.id); if (guardado) campo.innerHTML = guardado; });
+            cargarResenas();
+        });
+        function activarModoEditor() {
+            if (prompt("Introduce tu clave maestra de administrador:") === "bunker123") {
+                document.body.classList.add("edit-mode-active"); document.getElementById("status-bar").style.display = "block"; document.getElementById("main-header").style.marginTop = "40px"; document.getElementById("btn-save").style.display = "inline-block"; document.querySelectorAll('.editable').forEach(c => c.setAttribute("contenteditable", "true"));
+                alert("🔓 Acceso Autorizado. Modifica tus textos haciendo clic en los recuadros rojos.");
+            } else { alert("❌ Clave incorrecta."); }
+        }
+        function guardarCambiosNuevos() {
+            document.querySelectorAll('.editable').forEach(campo => { localStorage.setItem(campo.id, campo.innerHTML); campo.setAttribute("contenteditable", "false"); });
+            document.body.classList.remove("edit-mode-active"); document.getElementById("status-bar").style.display = "none"; document.getElementById("main-header").style.marginTop = "0"; document.getElementById("btn-save").style.display = "none";
+            alert("✨ ¡Cambios guardados con éxito!");
+        }
+        function agregarResenaNueva(event) {
+            event.preventDefault(); const nombre = document.getElementById('form-nombre').value, estrellas = document.getElementById('form-estrellas').value, comentario = document.getElementById('form-comentario').value;
+            let resenas = JSON.parse(localStorage.getItem('bunker_op_definitivo')) || []; resenas.unshift({ nombre, estrellas, comentario }); localStorage.setItem('bunker_op_definitivo', JSON.stringify(resenas));
+            cargarResenas(); document.getElementById('opinionForm').reset(); alert("✅ ¡Recomendación publicada!");
+        }
+        function cargarResenas() {
+            const contenedor = document.getElementById('contenedor-resenas'); let resenas = JSON.parse(localStorage.getItem('bunker_op_definitivo')) || [];
+            let html = `<div class="resena-card"><div class="resena-header"><span class="resena-nombre">Familia Miller (EE.UU.)</span><span class="resena-estrellas">⭐⭐⭐⭐⭐</span></div><p>"Excelente car camping y río limpio. Una experiencia maravillosa."</p></div>`;
+            resenas.forEach(r => { html += `<div class="resena-card"><div class="resena-header"><span class="resena-nombre">${r.nombre}</span><span class="resena-estrellas">${r.estrellas}</span></div><p>"${r.comentario}"</p></div>`; }); contenedor.innerHTML = html;
+        }
+    </script>
+</body>
+</html>
