@@ -51,7 +51,7 @@ html<!DOCTYPE html>
 
         /* --- VISOR CENTRAL DE PLANTILLAS DINÁMICAS --- */
         .contenedor-principal { max-width: 1100px; margin: 30px auto; padding: 0 20px; }
-        
+
         .visor-plantilla {
             background: white; border-radius: 30px; overflow: hidden;
             box-shadow: 0 15px 35px rgba(0,0,0,0.06); border: 1px solid rgba(0,0,0,0.05);
@@ -65,6 +65,23 @@ html<!DOCTYPE html>
         .plantilla-info h2 { font-size: 38px; color: var(--verde-bunker); margin-bottom: 15px; text-transform: uppercase; }
         .plantilla-info p { font-size: 18px; color: #57606f; margin-bottom: 25px; }
 
+        /* --- SECCIÓN DE RECOMENDACIONES --- */
+        .seccion-resenas { max-width: 800px; margin: 60px auto; padding: 0 20px; }
+        .formulario-opiniones { background: white; padding: 30px; border-radius: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.05); margin-bottom: 40px; }
+        .formulario-opiniones h3 { margin-bottom: 20px; color: var(--verde-bunker); }
+        .form-grupo { margin-bottom: 15px; display: flex; flex-direction: column; }
+        .form-grupo label { font-weight: bold; margin-bottom: 5px; }
+        .form-grupo input, .form-grupo textarea, .form-grupo select { width: 100%; padding: 12px; border: 2px solid #e2e8f0; border-radius: 10px; font-size: 16px; outline: none; }
+        .lista-resenas { display: flex; flex-direction: column; gap: 20px; }
+        .resena-card { background: white; padding: 25px; border-radius: 15px; box-shadow: 0 5px 15px rgba(0,0,0,0.02); border-left: 5px solid var(--neon-selva); }
+        .resena-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; }
+        .resena-nombre { font-weight: bold; color: var(--verde-bunker); font-size: 18px; }
+        .resena-estrellas { color: var(--amarillo-sol); font-size: 18px; }
+
+        /* Google Maps */
+        .mapa-contenedor { max-width: 1100px; margin: 40px auto; padding: 0 20px; }
+        .mapa-box { width: 100%; height: 400px; border-radius: 25px; overflow: hidden; box-shadow: 0 10px 30px rgba(11, 41, 27, 0.15); border: 4px solid var(--verde-bunker); }
+
         /* --- CREADOR SECRETO DE PLANTILLAS --- */
         #creator-panel {
             background: var(--gris-panel); color: white; padding: 30px; border-radius: 25px;
@@ -75,11 +92,11 @@ html<!DOCTYPE html>
         .form-control { display: flex; flex-direction: column; }
         .form-control label { font-size: 13px; color: #a4b0be; margin-bottom: 5px; }
         .form-control input, .form-control select, .form-control textarea { padding: 12px; border-radius: 8px; border: none; background: #2f3542; color: white; font-size: 15px; }
-        
+
         /* Botones y Pie */
         .btn-action { display: inline-block; background-color: var(--coral-orquidea); color: white; padding: 12px 30px; text-decoration: none; border-radius: 50px; font-weight: bold; text-align: center; cursor: pointer; border: none; }
         footer { background-color: #05140d; color: #799487; text-align: center; padding: 40px 20px; margin-top: 60px; }
-        
+
         @media (max-width: 768px) {
             .visor-plantilla { grid-template-columns: 1fr; }
             #menu-esquina { top: auto; bottom: 20px; right: 20px; left: 20px; flex-direction: row; overflow-x: auto; }
@@ -102,6 +119,7 @@ html<!DOCTYPE html>
     <header>
         <nav>
             <div class="logo">The <span>Bunker</span></div>
+            <!-- Elemento de Traducción -->
             <div id="google_translate_element"></div>
         </nav>
     </header>
@@ -113,75 +131,46 @@ html<!DOCTYPE html>
         </div>
     </main>
 
+    <!-- SISTEMA DE RECOMENDACIONES -->
+    <section class="seccion-resenas">
+        <h2 style="text-align: center; margin-bottom: 30px; color: var(--verde-bunker); text-transform: uppercase;">💬 Opiniones del Paraíso</h2>
+        <div class="formulario-opiniones">
+            <h3>Deja tu Comentario</h3>
+            <form id="opinionForm" onsubmit="agregarResenaNueva(event)">
+                <div class="form-grupo">
+                    <label>Tu Nombre o Familia:</label>
+                    <input type="text" id="form-nombre" required placeholder="Ej: John (Alemania)">
+                </div>
+                <div class="form-grupo">
+                    <label>Calificación:</label>
+                    <select id="form-estrellas">
+                        <option value="⭐⭐⭐⭐⭐">⭐⭐⭐⭐⭐ (Excelente)</option>
+                        <option value="⭐⭐⭐⭐">⭐⭐⭐⭐ (Muy Bueno)</option>
+                    </select>
+                </div>
+                <div class="form-grupo">
+                    <label>Tu Experiencia:</label>
+                    <textarea id="form-comentario" rows="3" required placeholder="Cuéntanos qué tal el río, las aves o los insectos..."></textarea>
+                </div>
+                <button type="submit" class="btn-action" style="background-color: var(--verde-bunker);">Publicar Comentario</button>
+            </form>
+        </div>
+        <div class="lista-resenas" id="contenedor-resenas"></div>
+    </section>
+
+    <!-- MAPA INTERACTIVO DE GOOGLE MAPS -->
+    <div class="mapa-contenedor">
+        <h2 style="text-align: center; margin-bottom: 20px; color: var(--verde-bunker);">📍 UBICACIÓN EN BÜRÍ</h2>
+        <div class="mapa-box">
+            <iframe src="https://google.com" width="100%" height="100%" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
+        </div>
+    </div>
+
     <!-- PANEL EXCLUSIVO PARA AGREGAR NUEVAS PLANTILLAS -->
     <section id="creator-panel">
-        <h3>🛠️ Creador Dinámico de Plantillas Nuevas</h3>
+        <h3>🛠| Creador Dinámico de Plantillas Nuevas</h3>
         <form onsubmit="crearNuevaPlantilla(event)">
             <div class="form-grid">
                 <div class="form-control">
                     <label>Asignar a qué Área:</label>
                     <select id="nueva-area">
-                        <option value="hospedaje">⛺ Hospedaje</option>
-                        <option value="restaurante">🍳 Restaurante</option>
-                        <option value="senderismo">🥾 Senderismo</option>
-                        <option value="aves">🦜 Avistamiento de Aves</option>
-                        <option value="insectos">🦋 Insectos y Mariposas</option>
-                    </select>
-                </div>
-                <div class="form-control">
-                    <label>Título de la Plantilla:</label>
-                    <input type="text" id="nuevo-titulo" required placeholder="Ej: Glamping de Lujo / Tour Nocturno">
-                </div>
-                <div class="form-control" style="grid-column: span 2;">
-                    <label>Descripción detallada:</label>
-                    <textarea id="nueva-descripcion" rows="3" required placeholder="Describe los servicios, horarios o características especiales..."></textarea>
-                </div>
-                <div class="form-control" style="grid-column: span 2;">
-                    <label>Nombre de la Foto Guardada o Enlace:</label>
-                    <input type="text" id="nueva-foto" required placeholder="Ej: mi_foto.jpg o enlace web de la foto">
-                </div>
-            </div>
-            <button type="submit" class="btn-action" style="background-color: #2ecc71;">➕ Insertar Plantilla en el Sistema</button>
-        </form>
-    </section>
-
-    <footer>
-        <p>&copy; 2026 The Bunker (Bürí) | Aplicación Autónoma.</p>
-        <button class="btn-filtro" style="margin: 15px auto 0; border-color: #799487; color: #799487;" onclick="desbloquearCreador()">🔐 Acceso Propietario (Añadir Plantillas)</button>
-    </footer>
-
-    <!-- TRADUCTOR AUTOMÁTICO -->
-    <script type="text/javascript">
-        function googleTranslateElementInit() {
-            new google.translate.TranslateElement({pageLanguage: 'es', includedLanguages: 'en,de,fr,it,es'}, 'google_translate_element');
-        }
-    </script>
-    <script type="text/javascript" src="//://google.com"></script>
-
-    <!-- INTELIGENCIA DEL SITIO WEB DINÁMICO -->
-    <script>
-        // BASE DE DATOS DE PLANTILLAS (Se guarda en la memoria del navegador)
-        const plantillasPredeterminadas = {
-            hospedaje: {
-                titulo: "Hospedaje de Montaña",
-                desc: "Disfruta de nuestras cabañas rústicas totalmente equipadas y zonas de camping Overland integradas a los jardines florales de Bürí.",
-                foto: "hospedaje.jpg"
-            },
-            restaurante: {
-                titulo: "Cocina Tradicional",
-                desc: "Sabores auténticos de la zona. Platos criollos preparados con ingredientes orgánicos cosechados directamente de tierras locales.",
-                foto: "restaurante.jpg"
-            },
-            senderismo: {
-                titulo: "Senderos Salvajes",
-                desc: "Caminatas guiadas por el denso bosque tropical. Respira aire puro bajo árboles centenarios y descubre cascadas ocultas.",
-                foto: "bosque.jpg"
-            },
-            aves: {
-                titulo: "Avistamiento de Aves",
-                desc: "Prepara tus binoculares. Divisa tucanes, colibríes y especies endémicas de Panamá directamente desde nuestro búnker ecológico.",
-                foto: "aves.jpg"
-            },
-            insectos: {
-                titulo: "Insectos y Mariposas",
-                desc: "Santuario botánico rodeado de flores que atraen de forma constante a espectaculares mariposas e insectos exóticos del sector.",
