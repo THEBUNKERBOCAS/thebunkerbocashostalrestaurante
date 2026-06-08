@@ -3,171 +3,201 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>THE BUNKER | Hospedaje y Aventura en Bürí</title>
+    <title>The Bunker Bocas</title>
     <style>
-        /* Paleta de colores natural */
+        /* Paleta Boscosa */
         :root {
-            --verde-bunker: #0b2216;
-            --musgo: #104c32;
-            --tierra: #f5fcf8;
-            --blanco: #ffffff;
-            --neon-gold: #f1c40f;
+            --verde-bunker: #1E3F20;
+            --musgo: #4A6B48;
+            --hoja: #A2B997;
+            --tierra: #F4F1EA;
+            --madera: #3E2723;
+            --blanco: #FFFFFF;
         }
 
-        * { margin: 0; padding: 0; box-sizing: border-box; font-family: sans-serif; }
-        body { background: var(--tierra); color: #2c3e50; padding: 40px 20px; }
+        /* Estilos Base Estables */
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: sans-serif; scroll-behavior: smooth; }
+        body { background: var(--tierra); color: #2C3E35; line-height: 1.6; padding-top: 70px; }
+        h1, h2, h3 { color: var(--verde-bunker); font-weight: 700; }
+        section { padding: 80px 8%; }
+        .blanco { background: var(--blanco); }
         
-        h1 { text-align: center; color: var(--verde-bunker); font-size: 3rem; margin-bottom: 5px; }
-        h2 { text-align: center; font-size: 1.2rem; color: #5a6c7d; font-weight: normal; margin-bottom: 30px; }
+        /* Elementos Flexibles Editables */
+        .btn { 
+            background: var(--musgo); color: var(--blanco); padding: 12px 30px; 
+            text-decoration: none; border-radius: 25px; font-weight: bold; 
+            display: inline-block; transition: 0.3s; border: none; cursor: pointer;
+        }
+        .btn:hover { background: var(--hoja); color: var(--verde-bunker); }
 
-        /* Contenedor de Banderas */
-        .banderas { display: flex; justify-content: center; gap: 15px; margin-bottom: 30px; align-items: center; font-size: 11px; font-weight: bold; color: #5a6c7d; }
-        .bandera-item { display: flex; flex-direction: column; align-items: center; }
-        .bandera-item span { font-size: 26px; margin-bottom: 2px; }
-        .flag-box { width: 36px; height: 22px; border: 1px solid #ccc; border-radius: 3px; display: flex; align-items: center; justify-content: center; font-size: 8px; }
-        .flag-ngabe { background: linear-gradient(to right, #f1c40f 33%, #ffffff 33%, #ffffff 66%, #e74c3c 66%); color: #0b2216; }
-        .flag-bocas { background: linear-gradient(to bottom right, #104c32 50%, #f1c40f 50%); color: white; }
+        /* Navegación */
+        header { 
+            background: var(--verde-bunker); padding: 15px 8%; position: fixed; 
+            top: 0; width: 100%; z-index: 1000; display: flex; justify-content: space-between; align-items: center; 
+        }
+        .logo-text { color: var(--tierra); font-weight: bold; font-size: 1.3rem; }
+        header nav { display: flex; gap: 20px; }
+        header nav a { color: var(--tierra); text-decoration: none; font-weight: 500; }
+        header nav a:hover { color: var(--hoja); }
 
-        /* Grilla Simple de Tarjetas */
-        .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 30px; max-width: 1200px; margin: 0 auto; }
-        .card { background: var(--blanco); padding: 20px; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.05); border-top: 5px solid var(--musgo); display: flex; flex-direction: column; justify-content: space-between; position: relative; }
-        .card img { width: 100%; height: 180px; object-fit: cover; border-radius: 8px; margin-bottom: 15px; }
-        .card h3 { color: var(--verde-bunker); margin-bottom: 10px; font-size: 20px; }
-        .card p { color: #5a6c7d; font-size: 14.5px; margin-bottom: 15px; line-height: 1.5; }
+        /* Portada (Hero) */
+        .hero { 
+            background: linear-gradient(rgba(30,63,32,0.6), rgba(30,63,32,0.75)), 
+                        url('https://images.unsplash.com/photo-1448375240586-882707db888b?auto=format&fit=crop&w=1200') center/cover;
+            height: 75vh; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; color: var(--blanco);
+        }
+        .hero h1 { color: var(--blanco); font-size: 3.5rem; margin-bottom: 15px; }
+        .hero p { color: var(--tierra); font-size: 1.2rem; max-width: 600px; margin-bottom: 25px; }
 
-        /* Botón de WhatsApp */
-        .btn-wsr { display: block; text-align: center; background: #25D366; color: white; padding: 12px; text-decoration: none; border-radius: 25px; font-weight: bold; text-transform: uppercase; font-size: 13px; transition: 0.2s; }
-        .btn-wsr:hover { background: #128C7E; }
+        /* Grillas y Tarjetas */
+        .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 40px; align-items: center; }
+        .card { background: var(--blanco); padding: 30px; border-radius: 12px; text-align: center; border-top: 4px solid var(--musgo); }
+        
+        /* Imágenes Editables */
+        img, .hero { cursor: pointer; }
+        .card img { width: 100%; height: 200px; object-fit: cover; border-radius: 8px; margin-top: 15px; }
 
-        /* Barra de herramientas para cambiar fotos */
-        #bar-admin { display: none; position: fixed; top: 0; left: 0; width: 100%; background: #2c3e50; color: white; padding: 12px; text-align: center; z-index: 2000; font-size: 0.9rem; }
-        #bar-admin button { background: #2ecc71; color: white; border: none; padding: 6px 15px; margin-left: 10px; cursor: pointer; font-weight: bold; border-radius: 4px; }
-        .foto-editable { outline: 3px dashed var(--neon-gold) !important; cursor: pointer; opacity: 0.9; }
+        /* Efecto Visual Modo Administrador */
+        [contenteditable="true"] { outline: 2px dashed var(--hoja) !important; background: rgba(162, 185, 151, 0.15); padding: 2px 5px; border-radius: 4px; }
 
-        footer { text-align: center; margin-top: 50px; color: #7f8c8d; font-size: 0.9rem; }
-        .lock { cursor: pointer; text-decoration: underline; color: var(--musgo); }
+        /* Barra Admin Superior */
+        #bar-admin { 
+            display: none; position: fixed; top: 70px; left: 0; width: 100%; 
+            background: #2c3e50; color: white; padding: 10px; text-align: center; z-index: 999; 
+        }
+        #bar-admin button { background: #2ecc71; color: white; border: none; padding: 6px 20px; margin-left: 15px; cursor: pointer; font-weight: bold; border-radius: 4px; }
+
+        /* Footer */
+        footer { background: var(--madera); color: var(--tierra); text-align: center; padding: 25px; font-size: 0.9rem; }
+        .lock { cursor: pointer; opacity: 0.5; }
+
+        @media (max-width: 768px) { header { flex-direction: column; gap: 10px; } .hero h1 { font-size: 2.3rem; } }
     </style>
 </head>
 <body>
 
-    <!-- Panel para guardar los cambios de las fotos -->
+    <!-- Barra de herramientas del Administrador -->
     <div id="bar-admin">
-        <strong>⚙️ MODO EDITOR:</strong> Haz clic sobre cualquier foto para cambiarla.
-        <button onclick="guardarImagenes()">💾 Guardar Fotos</button>
+        <span>⚙️ Modo Editor: Haz clic en cualquier texto, botón, menú o imagen para editarlo.</span>
+        <button onclick="save()">💾 Guardar Todo</button>
     </div>
 
-    <h1>THE BUNKER</h1>
-    
-    <!-- Banderas de la región -->
-    <div class="banderas">
-        <div class="bandera-item"><span>🇵🇦</span>PANAMÁ</div>
-        <div class="bandera-item"><div class="flag-box flag-ngabe">N-B</div>NGÄBE-BUGLÉ</div>
-        <div class="bandera-item"><div class="flag-box flag-bocas">B-T</div>BOCAS DEL TORO</div>
-    </div>
+    <!-- Contenedor editable GLOBAL -->
+    <div id="web-completa">
 
-    <h2>Hospedaje, Restaurante y Ecoturismo en Willy Mazue, Bürí</h2>
+        <header>
+            <div class="logo-text">THE BUNKER</div>
+            <nav>
+                <a href="#inicio">Inicio</a>
+                <a href="#nosotros">Nosotros</a>
+                <a href="#espacios">Espacios</a>
+            </nav>
+        </header>
 
-    <!-- Contenedor Base de Fotos Modificables -->
-    <div id="galeria-bunker">
-        <div class="grid">
-            
-            <!-- Tarjeta 1: Hostal -->
-            <div class="card">
-                <img src="https://unsplash.com" id="img-1" alt="Hostal">
+        <section class="hero" id="inicio" onclick="changeHeroBg(this, event)">
+            <h1>Welcome to The Bunker</h1>
+            <p>Tu refugio natural en Bocas del Toro. Un lugar diseñado para desconectar y vivir una experiencia única en el bosque.</p>
+            <a href="#nosotros" class="btn">Explorar</a>
+        </section>
+
+        <section class="blanco" id="nosotros">
+            <div class="grid">
                 <div>
-                    <h3>Hostal Ecológico</h3>
-                    <p>Habitaciones cómodas construidas de forma sostenible en madera, rodeadas de naturaleza.</p>
+                    <h2>Sobre Nosotros</h2><br>
+                    <p>The Bunker Bocas nace como un concepto de integración total con la naturaleza de la isla. Buscamos ofrecer un espacio rústico pero sofisticado, donde la vegetación tropical y la tranquilidad sean los protagonistas.</p>
                 </div>
-                <a href="https://wa.me" target="_blank" class="btn-wsr">WhatsApp +507 6652-7730</a>
+                <img src="https://images.unsplash.com/photo-1511497584788-876760111969?auto=format&fit=crop&w=600" style="width:100%; border-radius:12px;" onclick="changeImg(this, event)">
             </div>
+        </section>
 
-            <!-- Tarjeta 2: Restaurante -->
-            <div class="card">
-                <img src="https://unsplash.com" id="img-2" alt="Restaurante">
-                <div>
-                    <h3>Restaurante Rústico</h3>
-                    <p>Comida casera abundante y deliciosos platillos locales preparados con ingredientes frescos.</p>
+        <section id="espacios">
+            <h2 style="text-align:center; margin-bottom: 40px;">Nuestras Experiencias</h2>
+            <div class="grid">
+                <div class="card">
+                    <h3>Ecoturismo</h3>
+                    <p>Inmersión absoluta en los senderos forestales de Bocas del Toro.</p>
+                    <img src="https://images.unsplash.com/photo-1502082553048-f009c37129b9?auto=format&fit=crop&w=400" onclick="changeImg(this, event)">
                 </div>
-                <a href="https://wa.me" target="_blank" class="btn-wsr">WhatsApp +507 6437-451</a>
-            </div>
-
-            <!-- Tarjeta 3: Río -->
-            <div class="card">
-                <img src="https://unsplash.com" id="img-3" alt="Río">
-                <div>
-                    <h3>Río Cristalino</h3>
-                    <p>Disfruta de un baño refrescante en las corrientes de agua pura a solo unos pasos de la estancia.</p>
+                <div class="card">
+                    <h3>Diseño Rústico</h3>
+                    <p>Instalaciones fabricadas en armonía con materiales sustentables.</p>
+                    <img src="https://images.unsplash.com/photo-1473448912268-2022ce9509d8?auto=format&fit=crop&w=400" onclick="changeImg(this, event)">
                 </div>
-                <a href="https://wa.me" target="_blank" class="btn-wsr">WhatsApp +507 6652-7730</a>
             </div>
+        </section>
 
-            <!-- Tarjeta 4: Avistamiento de Aves -->
-            <div class="card">
-                <img src="https://unsplash.com" id="img-4" alt="Aves">
-                <div>
-                    <h3>Avistamiento de Aves</h3>
-                    <p>Explora e inmortaliza la biodiversidad de aves exóticas y nativas ocultas en el bosque.</p>
-                </div>
-                <a href="https://wa.me" target="_blank" class="btn-wsr">WhatsApp +507 6437-451</a>
-            </div>
-
-            <!-- Tarjeta 5: Senderismo -->
-            <div class="card">
-                <img src="https://unsplash.com" id="img-5" alt="Senderismo">
-                <div>
-                    <h3>Senderismo</h3>
-                    <p>Rutas guiadas y caminatas por los senderos de la montaña profunda diseñadas para la aventura.</p>
-                </div>
-                <a href="https://wa.me" target="_blank" class="btn-wsr">WhatsApp +507 6652-7730</a>
-            </div>
-
-        </div>
-    </div>
+    </div> <!-- Fin del contenedor global -->
 
     <footer>
-        <p>&copy; 2026 THE BUNKER - Willy Mazue, Bürí, Comarca Ngäbe-Buglé, Panamá.</p>
-        <p style="margin-top: 15px;"><span class="lock" onclick="activarEditor()">🔒 Cambiar Imágenes</span></p>
+        <p>&copy; 2026 The Bunker Bocas. | <span class="lock" onclick="login()">🔒 Administrar</span></p>
     </footer>
 
     <script>
-        let modoEdicion = false;
+        let editMode = false;
 
-        // Cargar las rutas de imágenes guardadas automáticamente al abrir la página
-        window.onload = function() {
-            document.querySelectorAll('#galeria-bunker img').forEach(img => {
-                const guardada = localStorage.getItem('bunker_img_' + img.id);
-                if (guardada) img.src = guardaged;
-            });
-        };
+        // Cargar todo el HTML guardado por el usuario
+        if(localStorage.getItem('bunkerCompletoHTML')) {
+            document.getElementById('web-completa').innerHTML = localStorage.getItem('bunkerCompletoHTML');
+        }
 
-        function activarEditor() {
-            if (prompt("Introduce la contraseña de propietario:") === "bunker123") {
-                modoEdicion = true;
+        // Activación del editor completo
+        function login() {
+            if(prompt("Contraseña de administración:") === "bunker123") {
+                editMode = true;
                 document.getElementById('bar-admin').style.display = "block";
                 
-                document.querySelectorAll('#galeria-bunker img').forEach(img => {
-                    img.classList.add('foto-editable');
-                    img.onclick = function() {
-                        let nuevaUrl = prompt("Inserta el enlace (URL) o nombre de la nueva imagen:", this.src);
-                        if (nuevaUrl) this.src = nuevaUrl;
-                    };
+                // Hace editable TODO: títulos, párrafos, enlaces del menú, botones y logos
+                document.querySelectorAll('#web-completa h1, #web-completa h2, #web-completa h3, #web-completa p, #web-completa a, #web-completa .logo-text').forEach(el => {
+                    el.contentEditable = true;
+                    // Evita que los enlaces te redirijan mientras editas sus nombres
+                    if(el.tagName === 'A') {
+                        el.addEventListener('click', function(e) { if(editMode) e.preventDefault(); });
+                    }
                 });
-                alert("¡Modo editor activo! Haz clic en cualquier imagen para cambiarla por otra.");
+                alert("¡Modo administrador al 100%! Puedes cambiar cualquier texto, menú, botón o imagen haciendo clic sobre ellos.");
             } else {
                 alert("Contraseña incorrecta.");
             }
         }
 
-        function guardarImagenes() {
-            document.querySelectorAll('#galeria-bunker img').forEach(img => {
-                localStorage.setItem('bunker_img_' + img.id, img.src);
-                img.classList.remove('foto-editable');
-                img.onclick = null;
-            });
+        // Cambiar imágenes comunes
+        function changeImg(imgElement, event) {
+            if(!editMode) return;
+            event.stopPropagation();
+            let newUrl = prompt("Inserta el enlace (URL) de la nueva imagen:", imgElement.src);
+            if(newUrl) imgElement.src = newUrl;
+        }
+
+        // Cambiar fondo de la sección de portada (Hero)
+        function changeHeroBg(heroElement, event) {
+            if(!editMode || event.target !== heroElement) return;
+            let currentBg = heroElement.style.backgroundImage || "https://images.unsplash.com/photo-1448375240586-882707db888b?auto=format&fit=crop&w=1200";
+            let newUrl = prompt("Inserta la URL para cambiar la gran foto de portada:", currentBg.replace(/url\(['\"]?|['\"]?\)/g, ''));
+            if(newUrl) {
+                heroElement.style.backgroundImage = `linear-gradient(rgba(30,63,32,0.6), rgba(30,63,32,0.75)), url('${newUrl}')`;
+            }
+        }
+
+        // Guardar la estructura completa libre de atributos temporales
+        function save() {
+            editMode = false;
             document.getElementById('bar-admin').style.display = "none";
-            modoEdicion = false;
-            alert("💾 ¡Rutas de imágenes guardadas correctamente!");
+            
+            // Limpiar las marcas de edición antes de guardar
+            document.querySelectorAll('#web-completa *').forEach(el => el.removeAttribute('contenteditable'));
+            
+            localStorage.setItem('bunkerCompletoHTML', document.getElementById('web-completa').innerHTML);
+            alert("¡Estructura guardada con éxito!");
+            location.reload();
         }
     </script>
 </body>
 </html>
+¿Qué puedes editar exactamente ahora?
+El menú de navegación: Puedes cambiar los nombres "Inicio", "Nosotros" o "Espacios" por lo que quieras.
+
+El logo: Puedes borrar "THE BUNKER" en la barra de arriba y poner tu nombre completo o eslogan.
+
+El gran botón verde: Si quieres que el botón de la portada diga "Reservar aquí" en lugar de "Explorar", lo borras y lo escribes en vivo.
+
+La gran foto de fondo superior: Estando en modo editor, haces clic en cualquier zona vacía de la portada y te pedirá el enlace para reemplazar el paisaje principal.
